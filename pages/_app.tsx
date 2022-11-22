@@ -1,5 +1,6 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { NextPage } from "next";
+import 'react-base-table/styles.css'
 
 const MyApp: NextPage<any> = ({ Component, pageProps }) => {
     return (

@@ -18,7 +18,7 @@ export const ProductCard: FC<Product> = ({
 }) => {
     return (
         <Grid xs={12 / size} key={id}>
-            <Card isPressable>
+            <Card>
                 <Card.Body css={{ p: 0 }}>
                     <Card.Image
                         src={thumbnail}
