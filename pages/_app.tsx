@@ -1,12 +1,14 @@
 import { NextUIProvider } from "@nextui-org/react";
+import { DiagramProvider } from "context/diagram";
 import { NextPage } from "next";
-import 'react-base-table/styles.css'
+import "react-base-table/styles.css";
 
 const MyApp: NextPage<any> = ({ Component, pageProps }) => {
     return (
-        // 2. Use at the root of your app
         <NextUIProvider>
-            <Component {...pageProps} />
+            <DiagramProvider>
+                <Component {...pageProps} />
+            </DiagramProvider>
         </NextUIProvider>
     );
 };

@@ -12,3 +12,9 @@ export interface PaginationProps {
     skip?: number;
     limit?: number;
 }
+export interface CardDataNode {
+    id: string;
+    title: string;
+    subTitle: string;
+    type?: string;
+}

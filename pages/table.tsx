@@ -81,7 +81,7 @@ const Table = () => {
                     width={1200}
                     height={800}
                 />
-                <TableUI.Pagination onPageChange={onPagination} total={data.total/take} initialPage={1} />
+                <TableUI.Pagination onPageChange={onPagination} total={Math.ceil(data.total/take)} initialPage={1} />
             </Card>
         </Container>
     );
