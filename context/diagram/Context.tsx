@@ -30,6 +30,7 @@ interface ContextProps {
     setDataToUpdate: (id: string) => void;
     removeDataToUpdate: () => void;
     updateItemOfData: (item: CardDataNode) => void;
+    addGenericItemOfData: (e: any) => void;
 }
 
 export const DiagramContext = createContext({} as ContextProps);

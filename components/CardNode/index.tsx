@@ -1,8 +1,10 @@
+
 import { FC, memo, useContext } from "react";
 import { Card, Text } from "@nextui-org/react";
 import { CardDataNode } from "interfaces";
 import { Handle, Position } from "reactflow";
 import { DiagramContext } from "../../context/diagram/Context";
+import { Plus } from "react-iconly";
 
 interface Props {
     data: CardDataNode;
@@ -18,16 +20,42 @@ const CardNode: FC<Props> = ({
     isConnectable,
 }) => {
     const { title, subTitle } = data;
-    const { setDataToUpdate } = useContext(DiagramContext);
+    const { setDataToUpdate, addGenericItemOfData } = useContext(DiagramContext);
     return (
         <>
+            {!draggable && (
+                <Handle
+                    type="target"
+                    position={Position.Top}
+                    isConnectable={isConnectable}
+                />
+            )}
+
             <Card
                 draggable={draggable}
-                css={{ mw: "330px" }}
+                // css={{ mw: "330px" }}
                 onDragStart={onDragStart}
             >
-                <Card.Header onClick={() => setDataToUpdate(data.id)} css={{cursor: "pointer"}}>
-                    <Text b>{title}</Text>
+                <Card.Header
+                    css={{
+                        cursor: "pointer",
+                        background: "$blue500",
+                        d: "flex",
+                        alignItems: "center",
+                        gap: "1rem"
+                    }}
+                >
+                    <Text
+                        onClick={() => !draggable && setDataToUpdate(data.id)}
+                        b
+                        color="white"
+                        css={{ flex: 1 }}
+                    >
+                        {title}
+                    </Text>
+                    {!draggable && <div onClick={addGenericItemOfData}>
+                        <Plus set="light" primaryColor="white" />
+                    </div>}
                 </Card.Header>
                 <Card.Divider />
                 <Card.Body css={{ py: "$10" }}>
@@ -38,7 +66,7 @@ const CardNode: FC<Props> = ({
             {!draggable && (
                 <>
                     <Handle
-                        type="target"
+                        type="source"
                         id={data.id + "fdsf"}
                         position={Position.Bottom}
                         isConnectable={isConnectable}

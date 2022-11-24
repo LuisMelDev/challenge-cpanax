@@ -17,8 +17,7 @@ export const SideBar: FC<Props> = ({ data }) => {
     };
 
     return (
-        <Container >
-            <Grid.Container gap={2} justify="center">
+            <Grid.Container gap={2} justify="center" css={{maxW: "100%"}}>
                 {data.map((item: CardDataNode) => (
                     <Grid xs={12} key={item.id}>
                         <CardNode
@@ -31,6 +30,5 @@ export const SideBar: FC<Props> = ({ data }) => {
                     </Grid>
                 ))}
             </Grid.Container>
-        </Container>
     );
 };

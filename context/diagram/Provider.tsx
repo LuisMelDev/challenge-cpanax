@@ -1,8 +1,8 @@
 import {
     FC,
+    MouseEventHandler,
     MutableRefObject,
     ReactNode,
-    useCallback,
     useReducer,
     useRef,
 } from "react";
@@ -20,15 +20,8 @@ import {
     ReactFlowInstance,
 } from "reactflow";
 
-const UI_INITIAL_STATE: ReducerState = {
-    nodes: [
-        {
-            id: "1",
-            type: "input",
-            data: { label: "input node" },
-            position: { x: 250, y: 5 },
-        },
-    ],
+const INITIAL_STATE: ReducerState = {
+    nodes: [],
     edges: [],
     data: [
         {
@@ -96,7 +89,7 @@ const UI_INITIAL_STATE: ReducerState = {
 };
 
 export const DiagramProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [state, dispatch] = useReducer(diagramReducer, UI_INITIAL_STATE);
+    const [state, dispatch] = useReducer(diagramReducer, INITIAL_STATE);
     const reactFlowWrapper = useRef(null);
 
     const { data, edges, nodes, reactFlowInstance } = state;
@@ -121,16 +114,12 @@ export const DiagramProvider: FC<{ children: ReactNode }> = ({ children }) => {
             payload: applyEdgeChanges(changes, edges),
         });
 
-    const onConnect = useCallback(
-        (params: Edge<any> | Connection) => {
-            dispatch({
-                type: "CHANGE_EDGES",
-                payload: addEdge(params, edges),
-            });
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
-    );
+    const onConnect = (params: Edge<any> | Connection) => {
+        dispatch({
+            type: "CHANGE_EDGES",
+            payload: addEdge(params, edges),
+        });
+    };
 
     const onDragOver = (event: {
         preventDefault: () => void;
@@ -195,6 +184,28 @@ export const DiagramProvider: FC<{ children: ReactNode }> = ({ children }) => {
         removeDataToUpdate();
     };
 
+    const addGenericItemOfData = (e: any) => {
+        
+        const reactFlowBounds = (
+            reactFlowWrapper as MutableRefObject<any>
+        ).current.getBoundingClientRect();
+        const position = (
+            reactFlowInstance as ReactFlowInstance<any, any>
+        ).project({
+            x: (e.clientX - reactFlowBounds.left) + 50,
+            y: e.clientY - reactFlowBounds.top,
+        });
+
+        const item: CardDataNode = {
+            id: Date.now() + "dfdsaf",
+            subTitle: "subtitle",
+            title: "title",
+        }
+
+        dispatch({ type: "ADD_DATA", payload: {data: item, position} });
+        removeDataToUpdate();
+    };
+
     return (
         <DiagramContext.Provider
             value={{
@@ -209,6 +220,7 @@ export const DiagramProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 removeDataToUpdate,
                 setDataToUpdate,
                 updateItemOfData,
+                addGenericItemOfData
             }}
         >
             {children}

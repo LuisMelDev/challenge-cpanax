@@ -32,6 +32,10 @@ type DiagramActionType =
     | {
           type: "UPDATE_DATA";
           payload: CardDataNode;
+      }
+    | {
+          type: "ADD_DATA";
+          payload: { data: CardDataNode; position: { x: number; y: number } };
       };
 
 export const diagramReducer = (
@@ -72,9 +76,24 @@ export const diagramReducer = (
                     return item;
                 }),
                 nodes: state.nodes.map((item) => {
-                    if (item.data.id === action.payload.id) return {...item, data: action.payload};
+                    if (item.data.id === action.payload.id)
+                        return { ...item, data: action.payload };
                     return item;
-                })
+                }),
+            };
+        case "ADD_DATA":
+            return {
+                ...state,
+                data: [...state.data, action.payload.data],
+                nodes: [
+                    ...state.nodes,
+                    {
+                        data: action.payload.data,
+                        id: action.payload.data.id,
+                        type: "card",
+                        position: action.payload.position,
+                    },
+                ],
             };
         default:
             return state;

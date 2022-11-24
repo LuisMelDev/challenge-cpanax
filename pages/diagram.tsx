@@ -10,9 +10,6 @@ const nodeTypes = {
     card: CardNode,
 };
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
-
 const Diagram = () => {
     const {
         data,
@@ -29,8 +26,16 @@ const Diagram = () => {
     } = useContext(DiagramContext);
 
     return (
-        <Grid.Container css={{ height: "100vh" }}>
-            <Grid xs={2} css={{ background: "$accents4", overflow: "auto", pb: "3rem" }}>
+        <Grid.Container css={{ height: "100vh", overflow: "hidden" }}>
+            <Grid
+                xs={2}
+                css={{
+                    background: "$accents4",
+                    overflowY: "auto",
+                    maxH: "100%",
+                    p: 0,
+                }}
+            >
                 <SideBar data={data} />
             </Grid>
             <Grid xs={10}>
